@@ -77,16 +77,19 @@
 <body><header class="header" id="header">
   <img src="logo.png" alt="Dulce Beba" class="logo">
 </header><div class="container">  <div class="filters">
-    <button onclick="filterMenu('all')" class="active">Todo</button>
-    <button onclick="filterMenu('bebidas')">Bebidas</button>
-    <button onclick="filterMenu('postres')">Postres</button>
-    <button onclick="filterMenu('promo')">Promos</button>
+  <button onclick="filterMenu('all')" class="active">Todo</button>
+    <button onclick="filterMenu('bebidas_calientes')">Bebidas calientes</button>
+    <button onclick="filterMenu('bebidas_frias')">Bebidas frías</button>
+    <button onclick="filterMenu('dulce')">Dulce</button>
+ <button onclick="filterMenu('salado')">Salado</button>
+<button onclick="filterMenu('postres')">Postres</button>
+<button onclick="filterMenu('meriendas')">Meriendas</button>
   </div>  <div class="grid" id="menu"></div></div><a class="whatsapp" href="https://wa.me/59800000000" target="_blank">💬</a>
 
 <script>
 
-const SHEET_URL = "PEGAR_URL_AQUI";
-
+//const SHEET_URL = "PEGAR_URL_AQUI";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1l6JSlV5Lr-cE-OVh7eF6H0aFtGACmArcG6g9DqTddw8/export?format=csv";
 let data = [];
 
 async function loadData(){
