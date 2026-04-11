@@ -102,7 +102,7 @@ async function loadData(){
     //const rows = text.split("\n").slice(1);
     const rows = text.split("\r\n");
     data = rows.map(row => {
-      const [id,name,description,price,img,cat] = row.split(",");
+      const [id,name,description,price,img,cat] = row.split(";");
       return { id, name, description, price, img, cat };
     }).filter(i=>i.id);
 
