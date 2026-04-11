@@ -1,8 +1,8 @@
-﻿<!DOCTYPE html><html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport"content="width=device-width, initial-scale=1.0"/>
-  <title>Menú Cafetería</title> <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"rel="stylesheet"> <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menú Cafetería</title>  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">  <style>
     :root { --primary:#7FAFA8; --bg:#f7f7f7; --card:#fff; --accent:#F4BFA6; --text:#5A5A5A; }
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:Poppins,sans-serif;background:var(--bg);color:var(--text)}
@@ -58,13 +58,13 @@
     }
   </style></head>
 <body><header class="header">
-  <img src="logo.png"alt="Dulce Beba"class="logo">
-</header><div class="container"> <div class="filters">
-    <button onclick="filterMenu('all')"class="active">Todo</button>
+  <img src="logo.png" alt="Dulce Beba" class="logo">
+</header><div class="container">  <div class="filters">
+    <button onclick="filterMenu('all')" class="active">Todo</button>
     <button onclick="filterMenu('bebidas')">Bebidas</button>
     <button onclick="filterMenu('postres')">Postres</button>
     <button onclick="filterMenu('promo')">Promos</button>
-  </div> <div class="grid"id="menu"></div></div><a class="whatsapp"href="https://wa.me/59800000000"target="_blank">💬</a>
+  </div>  <div class="grid" id="menu"></div></div><a class="whatsapp" href="https://wa.me/59800000000" target="_blank">💬</a>
 
 <script>
 
@@ -80,7 +80,7 @@ async function loadData(){
 
     const rows = text.split("\n").slice(1);
 
-    data = rows.map(row =>{
+    data = rows.map(row => {
       const [id,name,description,price,img,cat] = row.split(",");
       return { id, name, description, price, img, cat };
     }).filter(i=>i.id);
@@ -95,7 +95,7 @@ function render(filter='all'){
   const menu=document.getElementById('menu')
   menu.innerHTML=''
 
-  data.filter(item=>filter==='all'||item.cat===filter)
+  data.filter(item=> filter==='all'||item.cat===filter)
       .forEach(item=>{
         menu.innerHTML+=`
           <div class="card">
@@ -119,4 +119,3 @@ loadData();
 
 </script></body>
 </html>
-
