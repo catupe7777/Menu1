@@ -125,7 +125,7 @@ function render(filter='all'){
       .forEach(item=>{
         menu.innerHTML+=`
           <div class="card">
-            <img src="${item.img}">
+            <img src="${item.img || 'placeholder.jpg'}" onerror="this.onerror=null; this.src='placeholder.jpg';">
             <div class="card-content">
               <h3>${item.name}</h3>
               <p class="desc">${item.description || ''}</p>
