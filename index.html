@@ -1,208 +1,292 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Menú Cafetería</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <title>Menú Cafetería</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<style>
-:root { --primary:#7FAFA8; --bg:#f7f7f7; --card:#fff; --accent:#F4BFA6; --text:#5A5A5A; }
+  <style>
+    :root { --primary:#7FAFA8; --bg:#f7f7f7; --card:#fff; --accent:#F4BFA6; --text:#5A5A5A; }
+    *{box-sizing:border-box;margin:0;padding:0}
 
-body{
-  font-family:Poppins,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  font-size:17px;
-}
+    body{
+      font-family:Poppins,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      font-size:17px;
+    }
 
-.container{max-width:1100px;margin:auto;padding:20px}
+    /* HEADER */
+    .header{
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: linear-gradient(135deg, #7FAFA8, #6fa39c);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:8px;
+      transition: all 0.3s ease;
+      box-shadow:0 2px 10px rgba(0,0,0,0.15);
+    }
 
-/* HEADER */
-.header{
-  position:sticky;
-  top:0;
-  background:#7FAFA8;
-  text-align:center;
-  padding:10px;
-}
+    .header.small{ padding:10px; }
 
-.logo{width:70px}
+    .logo{
+      width:70px;
+      height:70px;
+      transition: all 0.3s ease;
+    }
 
-/* BOTONES */
-.filters{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  justify-content:center;
-  margin-bottom:20px;
-}
+    .header.small .logo{
+      width:50px;
+      height:50px;
+    }
 
-.filters button{
-  padding:12px 18px;
-  font-size:15px;
-  border:none;
-  border-radius:20px;
-  cursor:pointer;
-}
+    .container{max-width:1100px;margin:auto;padding:20px}
 
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-}
+    /* FILTROS */
+    .filters{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      margin-bottom:20px;
+      flex-wrap:wrap;
+    }
 
-.card{
-  background:white;
-  border-radius:15px;
-  overflow:hidden;
-  box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
+    .filters button{
+      padding:12px 18px;
+      border:none;
+      border-radius:20px;
+      background:#ccc;
+      cursor:pointer;
+      font-size:15px;
+    }
 
-.card img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-}
+    .filters button.active{
+      background:var(--primary);
+      color:white;
+    }
 
-.card-content{
-  text-align:center;
-  padding:12px;
-}
+    /* GRID */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+    }
 
-.card-content h3{
-  font-size:18px;
-}
+    .card{
+      background:var(--card);
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:0 4px 10px rgba(127,175,168,0.25);
+      transition:.2s;
+    }
 
-.desc{
-  font-size:14px;
-  margin:5px 0;
-}
+    .card:hover{
+      transform:translateY(-5px);
+    }
 
-.price{
-  font-size:20px;
-  font-weight:700;
-  color:#F4BFA6;
-}
+    .card img{
+      width:100%;
+      height:180px;
+      object-fit:cover;
+    }
 
-/* BOTÓN PEDIR */
-.order-btn{
-  margin-top:8px;
-  background:#25D366;
-  color:white;
-  border:none;
-  padding:10px;
-  border-radius:8px;
-  width:100%;
-  font-size:14px;
-}
+    .card-content{
+      text-align:center;
+      padding:12px;
+    }
 
-/* BOTONES FLOTANTES */
-.floating-buttons{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
+    .card-content h3{
+      font-size:18px;
+    }
 
-.fab{
-  width:55px;
-  height:55px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:none;
-  cursor:pointer;
-}
+    .desc{
+      font-size:14px;
+      color:#777;
+      margin:5px 0;
+    }
 
-.scroll-top{
-  background:#7FAFA8;
-  opacity:0;
-}
+    .price{
+      color:var(--accent);
+      font-weight:700;
+      font-size:20px;
+    }
 
-.scroll-top.show{opacity:1}
+    /* BOTONES FLOTANTES */
+    .floating-buttons{
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 999;
+    }
 
-.whatsapp{
-  background:#25D366;
-  color:white;
-  text-decoration:none;
-}
-</style>
+    .fab{
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:none;
+      cursor:pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      transition: all 0.3s ease;
+    }
+
+    .fab:hover{
+      transform: translateY(-4px) scale(1.05);
+    }
+
+    /* SUBIR */
+    .scroll-top{
+      background: linear-gradient(135deg, #7FAFA8, #6fa39c);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px) scale(0.9);
+    }
+
+    .scroll-top.show{
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    /* WHATSAPP */
+    .whatsapp{
+      background-color: #25D366;
+      color:white;
+      font-size:20px;
+      text-decoration:none;
+    }
+
+  </style>
 </head>
 
 <body>
 
-<header class="header">
-  <img src="images/logo.png" class="logo">
+<header class="header" id="header">
+  <img src="images/logo.png" alt="Dulce Beba" class="logo">
 </header>
 
 <div class="container">
+
   <div class="filters">
-    <button onclick="render()">Todo</button>
+    <button onclick="filterMenu('all')" class="active">🩵Todo</button>
+    <button onclick="filterMenu('bebidas_calientes')">☕Bebidas calientes</button>
+    <button onclick="filterMenu('bebidas_frias')">🍹Bebidas frías</button>
+    <button onclick="filterMenu('dulces')">🍪Dulce</button>
+    <button onclick="filterMenu('salados')">🥪Salado</button>
+    <button onclick="filterMenu('tortas')">🍰Tortas</button>
+    <button onclick="filterMenu('postres')">🍮Postres</button>
+    <button onclick="filterMenu('meriendas')">🧁Meriendas</button>
+    <button onclick="filterMenu('eventos')">⭐Eventos</button>
   </div>
 
   <div class="grid" id="menu"></div>
 </div>
 
+<!-- BOTONES FLOTANTES -->
 <div class="floating-buttons">
-  <button class="fab scroll-top" id="scrollTopBtn">↑</button>
-  <a class="fab whatsapp" href="https://wa.me/598095662193">📞</a>
+
+  <!-- SUBIR -->
+  <button class="fab scroll-top" id="scrollTopBtn">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path d="M6 14L12 8L18 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <!-- WHATSAPP -->
+  <a class="fab whatsapp" href="https://wa.me/598095662193" target="_blank">
+    📞
+  </a>
+
 </div>
 
 <script>
+
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4Jlrqj7FGzviBaDj5UE15EPxPG0cqsNb8ihQ2rO3DUOFo69OioIroCADsJYXifA/pub?gid=350585094&single=true&output=csv"
-let data=[];
+
+let data = [];
 
 async function loadData(){
-  const res = await fetch(SHEET_URL);
-  const text = await res.text();
-  const rows = text.split("\r\n");
+  try{
+    const res = await fetch(SHEET_URL);
+    const text = await res.text();
 
-  data = rows.map(r=>{
-    const [id,name,description,price,img,cat]=r.split(",");
-    return {id,name,description,price,img,cat};
-  }).filter(i=>i.id);
+    const rows = text.split("\r\n");
+    data = rows.map(row => {
+      const [id,name,description,price,img,cat] = row.split(",");
+      return { id, name, description, price, img, cat };
+    }).filter(i=>i.id);
 
-  render();
+    render();
+  }catch(e){
+    console.error("Error cargando Google Sheets", e);
+  }
 }
 
-function render(){
-  const menu=document.getElementById("menu");
-  menu.innerHTML="";
+function render(filter='all'){
+  const menu=document.getElementById('menu')
+  menu.innerHTML=''
 
-  data.forEach(item=>{
-    const msg = encodeURIComponent("Hola, quiero pedir: " + item.name);
-
-    menu.innerHTML+=`
-    <div class="card">
-      <img src="${item.img || 'images/sinimagen.png'}">
-      <div class="card-content">
-        <h3>${item.name}</h3>
-        <p class="desc">${item.description || ""}</p>
-        <p class="price">$${item.price}</p>
-        <a href="https://wa.me/598095662193?text=${msg}">
-          <button class="order-btn">Pedir por WhatsApp</button>
-        </a>
-      </div>
-    </div>`;
-  });
+  data.filter(item=> filter==='all'||item.cat===filter)
+      .forEach(item=>{
+        menu.innerHTML+=`
+          <div class="card">
+            <img src="${item.img || 'images/sinimagen.png'}" onerror="this.onerror=null; this.src='images/sinimagen.png';">
+            <div class="card-content">
+              <h3>${item.name}</h3>
+              <p class="desc">${item.description || ''}</p>
+              <p class="price">$${item.price}</p>
+            </div>
+          </div>`
+      })
 }
 
-/* Scroll */
-const btn=document.getElementById("scrollTopBtn");
-window.addEventListener("scroll",()=>{
-  if(window.scrollY>200){btn.classList.add("show")}
-  else{btn.classList.remove("show")}
+function filterMenu(cat){
+  document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'))
+  event.target.classList.add('active')
+  render(cat)
+}
+
+// Header dinámico
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('header');
+  if(window.scrollY > 50){
+    header.classList.add('small');
+  } else {
+    header.classList.remove('small');
+  }
 });
 
-btn.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+// BOTÓN SUBIR
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 200) {
+    scrollTopBtn.classList.add("show");
+  } else {
+    scrollTopBtn.classList.remove("show");
+  }
+});
+
+scrollTopBtn.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
 
 loadData();
+
 </script>
 
 </body>
