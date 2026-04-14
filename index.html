@@ -19,7 +19,6 @@
       font-size:17px;
     }
 
-    /* HEADER */
     .header{
       position: sticky;
       top: 0;
@@ -29,26 +28,17 @@
       justify-content:center;
       align-items:center;
       padding:8px;
-      transition: all 0.3s ease;
       box-shadow:0 2px 10px rgba(0,0,0,0.15);
     }
-
-    .header.small{ padding:10px; }
 
     .logo{
       width:70px;
       height:70px;
-      transition: all 0.3s ease;
-    }
-
-    .header.small .logo{
-      width:50px;
-      height:50px;
     }
 
     .container{max-width:1100px;margin:auto;padding:20px}
 
-    /* FILTROS PRO */
+    /* FILTROS */
     .filters{
       position: sticky;
       top: 80px;
@@ -67,33 +57,42 @@
       backdrop-filter: blur(10px);
       border-bottom: 1px solid #eee;
       border-radius: 15px;
+
+      position: relative;
     }
 
     .filters::-webkit-scrollbar{ display:none; }
 
-    /* Fade derecha */
-    .filters::after{
-      content:"";
-      position:absolute;
-      right:0;
-      top:0;
-      height:100%;
-      width:40px;
-      background: linear-gradient(to right, transparent, white);
-      pointer-events:none;
-    }
-
-    /* Fade izquierda */
+    /* Fade izquierdo */
     .filters::before{
       content:"";
       position:absolute;
       left:0;
       top:0;
       height:100%;
-      width:40px;
-      background: linear-gradient(to left, transparent, white);
+      width:30px;
+      background: linear-gradient(to right, rgba(254,254,254,0.95), transparent);
       pointer-events:none;
+      opacity:0;
+      transition: opacity 0.3s;
     }
+
+    /* Fade derecho */
+    .filters::after{
+      content:"";
+      position:absolute;
+      right:0;
+      top:0;
+      height:100%;
+      width:30px;
+      background: linear-gradient(to left, rgba(254,254,254,0.95), transparent);
+      pointer-events:none;
+      opacity:0;
+      transition: opacity 0.3s;
+    }
+
+    .filters.fade-left::before{ opacity:1; }
+    .filters.fade-right::after{ opacity:1; }
 
     .filters button{
       flex: 0 0 auto;
@@ -105,7 +104,6 @@
       font-size: 14px;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.2s ease;
     }
 
     .filters button.active{
@@ -127,10 +125,7 @@
       border-radius:15px;
       overflow:hidden;
       box-shadow:0 4px 10px rgba(127,175,168,0.25);
-      transition:.2s;
     }
-
-    .card:hover{ transform:translateY(-5px); }
 
     .card img{
       width:100%;
@@ -143,23 +138,13 @@
       padding:12px;
     }
 
-    .card-content h3{
-      font-size:18px;
-    }
-
-    .desc{
-      font-size:14px;
-      color:#777;
-      margin:5px 0;
-    }
-
     .price{
       color:var(--accent);
       font-weight:700;
       font-size:20px;
     }
 
-    /* BOTONES FLOTANTES */
+    /* BOTONES */
     .floating-buttons{
       position: fixed;
       bottom: 20px;
@@ -167,7 +152,6 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      z-index: 999;
     }
 
     .fab{
@@ -179,31 +163,19 @@
       justify-content:center;
       border:none;
       cursor:pointer;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-      transition: all 0.3s ease;
-    }
-
-    .fab:hover{
-      transform: translateY(-4px) scale(1.05);
     }
 
     .scroll-top{
-      background: linear-gradient(135deg, #7FAFA8, #6fa39c);
+      background: var(--primary);
+      color:white;
       opacity: 0;
-      visibility: hidden;
-      transform: translateY(10px) scale(0.9);
     }
 
-    .scroll-top.show{
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0) scale(1);
-    }
+    .scroll-top.show{ opacity:1 }
 
     .whatsapp{
-      background-color: #25D366;
+      background:#25D366;
       color:white;
-      font-size:20px;
       text-decoration:none;
     }
 
@@ -212,8 +184,8 @@
 
 <body>
 
-<header class="header" id="header">
-  <img src="images/logo.png" alt="Dulce Beba" class="logo">
+<header class="header">
+  <img src="images/logo.png" class="logo">
 </header>
 
 <div class="container">
@@ -233,23 +205,16 @@
   <div class="grid" id="menu"></div>
 </div>
 
-<!-- BOTONES -->
 <div class="floating-buttons">
-
-  <button class="fab scroll-top" id="scrollTopBtn">
-    ↑
-  </button>
-
-  <a class="fab whatsapp" href="https://wa.me/598095662193" target="_blank">
-    📞
-  </a>
-
+  <button class="fab scroll-top" id="scrollTopBtn">↑</button>
+  <a class="fab whatsapp" href="https://wa.me/598095662193">📞</a>
 </div>
 
 <script>
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4Jlrqj7FGzviBaDj5UE15EPxPG0cqsNb8ihQ2rO3DUOFo69OioIroCADsJYXifA/pub?gid=350585094&single=true&output=csv"
-let data = [];
+
+let data=[];
 
 async function loadData(){
   const res = await fetch(SHEET_URL);
@@ -262,31 +227,32 @@ async function loadData(){
   }).filter(i=>i.id);
 
   render();
+  setTimeout(updateFade,100);
 }
 
 function render(filter='all'){
-  const menu=document.getElementById('menu')
-  menu.innerHTML=''
+  const menu=document.getElementById('menu');
+  menu.innerHTML='';
 
   data.filter(item=> filter==='all'||item.cat===filter)
     .forEach(item=>{
       menu.innerHTML+=`
-        <div class="card">
-          <img src="${item.img || 'images/sinimagen.png'}" onerror="this.src='images/sinimagen.png'">
-          <div class="card-content">
-            <h3>${item.name}</h3>
-            <p class="desc">${item.description || ''}</p>
-            <p class="price">$${item.price}</p>
-          </div>
-        </div>`
-    })
+      <div class="card">
+        <img src="${item.img || 'images/sinimagen.png'}" onerror="this.src='images/sinimagen.png'">
+        <div class="card-content">
+          <h3>${item.name}</h3>
+          <p>${item.description || ''}</p>
+          <p class="price">$${item.price}</p>
+        </div>
+      </div>`;
+    });
 }
 
 function filterMenu(e, cat){
   document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'))
   e.target.classList.add('active')
 
-  // 👉 centrar botón
+  // centrar botón
   e.target.scrollIntoView({
     behavior: "smooth",
     inline: "center",
@@ -295,40 +261,46 @@ function filterMenu(e, cat){
 
   render(cat)
 
-  // 👉 scroll al contenido
   setTimeout(()=>{
     const menu = document.getElementById("menu");
     window.scrollTo({
       top: menu.offsetTop - 100,
       behavior: "smooth"
     });
+    updateFade();
   }, 50);
 }
 
-// Header dinámico
-window.addEventListener('scroll', () => {
-  const header = document.getElementById('header');
-  if(window.scrollY > 50){
-    header.classList.add('small');
+/* FADE DINÁMICO */
+const filters = document.querySelector('.filters');
+
+function updateFade(){
+  const scrollLeft = filters.scrollLeft;
+  const maxScroll = filters.scrollWidth - filters.clientWidth;
+
+  if(scrollLeft > 5){
+    filters.classList.add('fade-left');
   } else {
-    header.classList.remove('small');
+    filters.classList.remove('fade-left');
   }
+
+  if(scrollLeft < maxScroll - 5){
+    filters.classList.add('fade-right');
+  } else {
+    filters.classList.remove('fade-right');
+  }
+}
+
+filters.addEventListener('scroll', updateFade);
+
+// botón subir
+const btn=document.getElementById("scrollTopBtn");
+window.addEventListener("scroll",()=>{
+  if(window.scrollY>200){btn.classList.add("show")}
+  else{btn.classList.remove("show")}
 });
 
-// Botón subir
-const scrollTopBtn = document.getElementById("scrollTopBtn");
-
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 200) {
-    scrollTopBtn.classList.add("show");
-  } else {
-    scrollTopBtn.classList.remove("show");
-  }
-});
-
-scrollTopBtn.onclick = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
+btn.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
 
 loadData();
 
