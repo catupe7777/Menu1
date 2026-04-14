@@ -209,7 +209,11 @@ function render(filter='all'){
 function filterMenu(e, cat){
   document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'))
   e.target.classList.add('active')
-
+e.target.scrollIntoView({
+    behavior: "smooth",
+    inline: "center",
+    block: "nearest"
+  });
   render(cat)
 
   setTimeout(()=>{
