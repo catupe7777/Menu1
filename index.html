@@ -294,6 +294,11 @@ scrollTopBtn.addEventListener("click", () => {
   });
 });
 
+  window.scrollTo({
+  top: document.getElementById("menu").offsetTop - 80,
+  behavior: "smooth"
+});
+
 loadData();
 
 </script>
