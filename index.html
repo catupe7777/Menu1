@@ -19,6 +19,7 @@
       font-size:17px;
     }
 
+    /* HEADER */
     .header{
       position: sticky;
       top: 0;
@@ -32,31 +33,67 @@
       box-shadow:0 2px 10px rgba(0,0,0,0.15);
     }
 
+    .header.small{ padding:10px; }
+
     .logo{
       width:70px;
       height:70px;
+      transition: all 0.3s ease;
+    }
+
+    .header.small .logo{
+      width:50px;
+      height:50px;
     }
 
     .container{max-width:1100px;margin:auto;padding:20px}
 
+    /* FILTROS PRO */
     .filters{
       position: sticky;
       top: 80px;
       z-index: 999;
+
       display: flex;
       gap: 10px;
       padding: 10px 15px;
       margin-bottom: 20px;
+
       overflow-x: auto;
+      scroll-behavior: smooth;
       scrollbar-width: none;
-      background: rgba(254,254,254,0.9);
+
+      background: rgba(254,254,254,0.95);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid #eee;
       border-radius: 15px;
-      scroll-behavior: smooth;
     }
 
     .filters::-webkit-scrollbar{ display:none; }
+
+    /* Fade derecha */
+    .filters::after{
+      content:"";
+      position:absolute;
+      right:0;
+      top:0;
+      height:100%;
+      width:40px;
+      background: linear-gradient(to right, transparent, white);
+      pointer-events:none;
+    }
+
+    /* Fade izquierda */
+    .filters::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      height:100%;
+      width:40px;
+      background: linear-gradient(to left, transparent, white);
+      pointer-events:none;
+    }
 
     .filters button{
       flex: 0 0 auto;
@@ -67,6 +104,8 @@
       color: #555;
       font-size: 14px;
       cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
     }
 
     .filters button.active{
@@ -76,6 +115,7 @@
       box-shadow: 0 4px 10px rgba(127,175,168,0.4);
     }
 
+    /* GRID */
     .grid{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -87,7 +127,10 @@
       border-radius:15px;
       overflow:hidden;
       box-shadow:0 4px 10px rgba(127,175,168,0.25);
+      transition:.2s;
     }
+
+    .card:hover{ transform:translateY(-5px); }
 
     .card img{
       width:100%;
@@ -100,12 +143,23 @@
       padding:12px;
     }
 
+    .card-content h3{
+      font-size:18px;
+    }
+
+    .desc{
+      font-size:14px;
+      color:#777;
+      margin:5px 0;
+    }
+
     .price{
       color:var(--accent);
       font-weight:700;
       font-size:20px;
     }
 
+    /* BOTONES FLOTANTES */
     .floating-buttons{
       position: fixed;
       bottom: 20px;
@@ -113,6 +167,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      z-index: 999;
     }
 
     .fab{
@@ -124,19 +179,31 @@
       justify-content:center;
       border:none;
       cursor:pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      transition: all 0.3s ease;
+    }
+
+    .fab:hover{
+      transform: translateY(-4px) scale(1.05);
     }
 
     .scroll-top{
-      background: var(--primary);
-      color:white;
+      background: linear-gradient(135deg, #7FAFA8, #6fa39c);
       opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px) scale(0.9);
     }
 
-    .scroll-top.show{ opacity:1 }
+    .scroll-top.show{
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
 
     .whatsapp{
-      background:#25D366;
+      background-color: #25D366;
       color:white;
+      font-size:20px;
       text-decoration:none;
     }
 
@@ -145,8 +212,8 @@
 
 <body>
 
-<header class="header">
-  <img src="logo.png" class="logo">
+<header class="header" id="header">
+  <img src="images/logo.png" alt="Dulce Beba" class="logo">
 </header>
 
 <div class="container">
@@ -166,15 +233,23 @@
   <div class="grid" id="menu"></div>
 </div>
 
+<!-- BOTONES -->
 <div class="floating-buttons">
-  <button class="fab scroll-top" id="scrollTopBtn">⌃</button>
-  <a class="fab whatsapp" href="https://wa.me/598095662193">📞</a>
+
+  <button class="fab scroll-top" id="scrollTopBtn">
+    ↑
+  </button>
+
+  <a class="fab whatsapp" href="https://wa.me/598095662193" target="_blank">
+    📞
+  </a>
+
 </div>
 
 <script>
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4Jlrqj7FGzviBaDj5UE15EPxPG0cqsNb8ihQ2rO3DUOFo69OioIroCADsJYXifA/pub?gid=350585094&single=true&output=csv"
-let data=[];
+let data = [];
 
 async function loadData(){
   const res = await fetch(SHEET_URL);
@@ -190,33 +265,37 @@ async function loadData(){
 }
 
 function render(filter='all'){
-  const menu=document.getElementById('menu');
-  menu.innerHTML='';
+  const menu=document.getElementById('menu')
+  menu.innerHTML=''
 
   data.filter(item=> filter==='all'||item.cat===filter)
     .forEach(item=>{
       menu.innerHTML+=`
-      <div class="card">
-        <img src="${item.img || 'sinimagen.png'}">
-        <div class="card-content">
-          <h3>${item.name}</h3>
-          <p>${item.description || ''}</p>
-          <p class="price">$${item.price}</p>
-        </div>
-      </div>`;
-    });
+        <div class="card">
+          <img src="${item.img || 'images/sinimagen.png'}" onerror="this.src='images/sinimagen.png'">
+          <div class="card-content">
+            <h3>${item.name}</h3>
+            <p class="desc">${item.description || ''}</p>
+            <p class="price">$${item.price}</p>
+          </div>
+        </div>`
+    })
 }
 
 function filterMenu(e, cat){
   document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'))
   e.target.classList.add('active')
-e.target.scrollIntoView({
+
+  // 👉 centrar botón
+  e.target.scrollIntoView({
     behavior: "smooth",
     inline: "center",
     block: "nearest"
   });
+
   render(cat)
 
+  // 👉 scroll al contenido
   setTimeout(()=>{
     const menu = document.getElementById("menu");
     window.scrollTo({
@@ -226,13 +305,30 @@ e.target.scrollIntoView({
   }, 50);
 }
 
-const btn=document.getElementById("scrollTopBtn");
-window.addEventListener("scroll",()=>{
-  if(window.scrollY>200){btn.classList.add("show")}
-  else{btn.classList.remove("show")}
+// Header dinámico
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('header');
+  if(window.scrollY > 50){
+    header.classList.add('small');
+  } else {
+    header.classList.remove('small');
+  }
 });
 
-btn.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+// Botón subir
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 200) {
+    scrollTopBtn.classList.add("show");
+  } else {
+    scrollTopBtn.classList.remove("show");
+  }
+});
+
+scrollTopBtn.onclick = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
 
 loadData();
 
