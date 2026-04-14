@@ -19,7 +19,6 @@
       font-size:17px;
     }
 
-    /* HEADER */
     .header{
       position: sticky;
       top: 0;
@@ -33,71 +32,49 @@
       box-shadow:0 2px 10px rgba(0,0,0,0.15);
     }
 
-    .header.small{ padding:10px; }
-
     .logo{
       width:70px;
       height:70px;
-      transition: all 0.3s ease;
-    }
-
-    .header.small .logo{
-      width:50px;
-      height:50px;
     }
 
     .container{max-width:1100px;margin:auto;padding:20px}
 
-    /* FILTROS */
     .filters{
-  position: sticky;
-  top: 80px;
-  z-index: 999;
-
-  display: flex;
-  gap: 10px;
-  padding: 10px 15px;
-  margin-bottom: 20px;
-
-  overflow-x: auto;
-  scrollbar-width: none;
-
-  background: rgba(254,254,254,0.9);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid #eee;
+      position: sticky;
+      top: 80px;
+      z-index: 999;
+      display: flex;
+      gap: 10px;
+      padding: 10px 15px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      background: rgba(254,254,254,0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #eee;
       border-radius: 15px;
-}
+    }
 
-.filters::-webkit-scrollbar{
-  display: none;
-}
-      
-    
+    .filters::-webkit-scrollbar{ display:none; }
 
     .filters button{
-  flex: 0 0 auto;
+      flex: 0 0 auto;
+      padding: 10px 16px;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      background: white;
+      color: #555;
+      font-size: 14px;
+      cursor: pointer;
+    }
 
-  padding: 10px 16px;
-  border-radius: 20px;
-  border: 1px solid #ddd;
+    .filters button.active{
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 10px rgba(127,175,168,0.4);
+    }
 
-  background: white;
-  color: #555;
-
-  font-size: 14px;
-  cursor: pointer;
-
-  transition: all 0.2s ease;
-}
-.filters button.active{
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-  box-shadow: 0 4px 10px rgba(127,175,168,0.4);
-      }
-  
-
-    /* GRID */
     .grid{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -109,11 +86,6 @@
       border-radius:15px;
       overflow:hidden;
       box-shadow:0 4px 10px rgba(127,175,168,0.25);
-      transition:.2s;
-    }
-
-    .card:hover{
-      transform:translateY(-5px);
     }
 
     .card img{
@@ -127,23 +99,12 @@
       padding:12px;
     }
 
-    .card-content h3{
-      font-size:18px;
-    }
-
-    .desc{
-      font-size:14px;
-      color:#777;
-      margin:5px 0;
-    }
-
     .price{
       color:var(--accent);
       font-weight:700;
       font-size:20px;
     }
 
-    /* BOTONES FLOTANTES */
     .floating-buttons{
       position: fixed;
       bottom: 20px;
@@ -151,7 +112,6 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      z-index: 999;
     }
 
     .fab{
@@ -163,33 +123,19 @@
       justify-content:center;
       border:none;
       cursor:pointer;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-      transition: all 0.3s ease;
     }
 
-    .fab:hover{
-      transform: translateY(-4px) scale(1.05);
-    }
-
-    /* SUBIR */
     .scroll-top{
-      background: linear-gradient(135deg, #7FAFA8, #6fa39c);
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(10px) scale(0.9);
-    }
-
-    .scroll-top.show{
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0) scale(1);
-    }
-
-    /* WHATSAPP */
-    .whatsapp{
-      background-color: #25D366;
+      background: var(--primary);
       color:white;
-      font-size:20px;
+      opacity: 0;
+    }
+
+    .scroll-top.show{ opacity:1 }
+
+    .whatsapp{
+      background:#25D366;
+      color:white;
       text-decoration:none;
     }
 
@@ -198,123 +144,90 @@
 
 <body>
 
-<header class="header" id="header">
-  <img src="images/logo.png" alt="Dulce Beba" class="logo">
+<header class="header">
+  <img src="images/logo.png" class="logo">
 </header>
 
 <div class="container">
 
   <div class="filters">
-    <button onclick="filterMenu('all')" class="active">🩵Todo</button>
-    <button onclick="filterMenu('bebidas_calientes')">☕Calientes</button>
-    <button onclick="filterMenu('bebidas_frias')">🍹Frías</button>
-    <button onclick="filterMenu('dulces')">🍪Dulce</button>
-    <button onclick="filterMenu('salados')">🥪Salado</button>
-    <button onclick="filterMenu('tortas')">🍰Tortas</button>
-    <button onclick="filterMenu('postres')">🍮Postres</button>
-    <button onclick="filterMenu('meriendas')">🧁Meriendas</button>
-    <button onclick="filterMenu('eventos')">⭐Eventos</button>
+    <button onclick="filterMenu(event, 'all')" class="active">🩵Todo</button>
+    <button onclick="filterMenu(event, 'bebidas_calientes')">☕Calientes</button>
+    <button onclick="filterMenu(event, 'bebidas_frias')">🍹Frías</button>
+    <button onclick="filterMenu(event, 'dulces')">🍪Dulce</button>
+    <button onclick="filterMenu(event, 'salados')">🥪Salado</button>
+    <button onclick="filterMenu(event, 'tortas')">🍰Tortas</button>
+    <button onclick="filterMenu(event, 'postres')">🍮Postres</button>
+    <button onclick="filterMenu(event, 'meriendas')">🧁Meriendas</button>
+    <button onclick="filterMenu(event, 'eventos')">⭐Eventos</button>
   </div>
 
   <div class="grid" id="menu"></div>
 </div>
 
-<!-- BOTONES FLOTANTES -->
 <div class="floating-buttons">
-
-  <!-- SUBIR -->
-  <button class="fab scroll-top" id="scrollTopBtn">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M6 14L12 8L18 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
-
-  <!-- WHATSAPP -->
-  <a class="fab whatsapp" href="https://wa.me/598095662193" target="_blank">
-    📞
-  </a>
-
+  <button class="fab scroll-top" id="scrollTopBtn">↑</button>
+  <a class="fab whatsapp" href="https://wa.me/598095662193">📞</a>
 </div>
 
 <script>
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4Jlrqj7FGzviBaDj5UE15EPxPG0cqsNb8ihQ2rO3DUOFo69OioIroCADsJYXifA/pub?gid=350585094&single=true&output=csv"
-
-let data = [];
+let data=[];
 
 async function loadData(){
-  try{
-    const res = await fetch(SHEET_URL);
-    const text = await res.text();
+  const res = await fetch(SHEET_URL);
+  const text = await res.text();
 
-    const rows = text.split("\r\n");
-    data = rows.map(row => {
-      const [id,name,description,price,img,cat] = row.split(",");
-      return { id, name, description, price, img, cat };
-    }).filter(i=>i.id);
+  const rows = text.split("\r\n");
+  data = rows.map(row=>{
+    const [id,name,description,price,img,cat]=row.split(",");
+    return {id,name,description,price,img,cat};
+  }).filter(i=>i.id);
 
-    render();
-  }catch(e){
-    console.error("Error cargando Google Sheets", e);
-  }
+  render();
 }
 
 function render(filter='all'){
-  const menu=document.getElementById('menu')
-  menu.innerHTML=''
+  const menu=document.getElementById('menu');
+  menu.innerHTML='';
 
   data.filter(item=> filter==='all'||item.cat===filter)
-      .forEach(item=>{
-        menu.innerHTML+=`
-          <div class="card">
-            <img src="${item.img || 'images/sinimagen.png'}" onerror="this.onerror=null; this.src='images/sinimagen.png';">
-            <div class="card-content">
-              <h3>${item.name}</h3>
-              <p class="desc">${item.description || ''}</p>
-              <p class="price">$${item.price}</p>
-            </div>
-          </div>`
-      })
+    .forEach(item=>{
+      menu.innerHTML+=`
+      <div class="card">
+        <img src="${item.img || 'images/sinimagen.png'}">
+        <div class="card-content">
+          <h3>${item.name}</h3>
+          <p>${item.description || ''}</p>
+          <p class="price">$${item.price}</p>
+        </div>
+      </div>`;
+    });
 }
 
-function filterMenu(cat){
+function filterMenu(e, cat){
   document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'))
-  event.target.classList.add('active')
+  e.target.classList.add('active')
+
   render(cat)
+
+  setTimeout(()=>{
+    const menu = document.getElementById("menu");
+    window.scrollTo({
+      top: menu.offsetTop - 100,
+      behavior: "smooth"
+    });
+  }, 50);
 }
 
-// Header dinámico
-window.addEventListener('scroll', () => {
-  const header = document.getElementById('header');
-  if(window.scrollY > 50){
-    header.classList.add('small');
-  } else {
-    header.classList.remove('small');
-  }
+const btn=document.getElementById("scrollTopBtn");
+window.addEventListener("scroll",()=>{
+  if(window.scrollY>200){btn.classList.add("show")}
+  else{btn.classList.remove("show")}
 });
 
-// BOTÓN SUBIR
-const scrollTopBtn = document.getElementById("scrollTopBtn");
-
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 200) {
-    scrollTopBtn.classList.add("show");
-  } else {
-    scrollTopBtn.classList.remove("show");
-  }
-});
-
-scrollTopBtn.addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-});
-
-  window.scrollTo({
-  top: document.getElementById("menu").offsetTop - 80,
-  behavior: "smooth"
-});
+btn.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
 
 loadData();
 
